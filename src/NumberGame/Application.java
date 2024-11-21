@@ -23,7 +23,7 @@ public class Application {
                 turn++;
             }
         }
-
+        application.printClosingMessage(turn);
     }
 
     public int[][] shuffle(int[][] numbers) {
@@ -151,40 +151,7 @@ public class Application {
         return puzzle;
     }
 
-    
+    public void printClosingMessage(int turn) {
+        System.out.println("축하합니다! " + turn + "턴만에 퍼즐을 완성하셨습니다!");
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
