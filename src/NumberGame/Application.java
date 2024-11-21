@@ -26,6 +26,18 @@ public class Application {
         application.printClosingMessage(turn);
     }
 
+    public int[][] start() {
+        System.out.println("재미있는 15 퍼즐!");
+        int[][] numbers = new int[4][4];
+        int length = numbers.length;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                numbers[i][j] = (i * 4) + j;    // 0~15까지 숫자 넣음
+            }
+        }
+        return shuffle(numbers);
+    }
+
     public int[][] shuffle(int[][] numbers) {
         int length = 4;
         int bound = 4;
@@ -39,18 +51,6 @@ public class Application {
             }
         }
         return numbers;
-    }
-
-    public int[][] start() {
-        System.out.println("재미있는 15 퍼즐!");
-        int[][] numbers = new int[4][4];
-        int length = numbers.length;
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
-                numbers[i][j] = (i * 4) + j;    // 0~15까지 숫자 넣음
-            }
-        }
-        return shuffle(numbers);
     }
 
     public void printStatus(int[][] puzzle, int turn) {
@@ -100,31 +100,36 @@ public class Application {
             try {
                 System.out.print("숫자 입력> ");
                 int inputNumber = Integer.parseInt(scanner.nextLine());
-                return validateInput(inputNumber, puzzle);
+                inputNumber = checkRange(inputNumber);
+                inputNumber = validatePosition(inputNumber, puzzle);
+                return inputNumber;
             } catch (Exception e) {
                 System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
             }
         }
     }
 
-    public int validateInput(int inputNumber, int[][] puzzle) throws IllegalArgumentException {
-        int validNumber = 0;
-        int length = 4;
+    public int checkRange(int inputNumber) throws IllegalArgumentException {
         int minValue = 1, maxValue = 15;
+        if (inputNumber < minValue || inputNumber > maxValue) {
+            throw new IllegalArgumentException();
+        }
+        return inputNumber;
+    }
+
+    public int validatePosition(int inputNumber, int[][] puzzle) throws IllegalArgumentException {
+        int length = 4;
         int verticalPosOfInput = 0;
         int horizonPosOfInput = 0;
         int verticalPosOfBlank = 0;
         int horizonPosOfBlank = 0;
-        if (inputNumber < minValue || inputNumber > maxValue) {
-            throw new IllegalArgumentException();
-        }
+
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if (puzzle[i][j] == inputNumber) {
                     verticalPosOfInput = i;
                     horizonPosOfInput = j;
-                }
-                if (puzzle[i][j] == 0) {
+                } else if(puzzle[i][j] == 0) {
                     verticalPosOfBlank = i;
                     horizonPosOfBlank = j;
                 }
@@ -133,8 +138,7 @@ public class Application {
         if (Math.abs(verticalPosOfInput - verticalPosOfBlank) + Math.abs(horizonPosOfInput - horizonPosOfBlank) > 1) {
             throw new IllegalArgumentException();
         }
-        validNumber = inputNumber;
-        return validNumber;
+        return inputNumber;
     }
 
     public int[][] moveTarget(int[][] puzzle, int targetNumber) {
