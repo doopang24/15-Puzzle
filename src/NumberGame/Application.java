@@ -7,8 +7,21 @@ public class Application {
 
     ThreadLocalRandom random = ThreadLocalRandom.current();
 
+    public static void main(String[] args) {
+        Application application = new Application();
+
+        int[][] puzzle = application.start();
+        int turn = 1;
+        boolean isSorted = false;
+
+        while (!isSorted) {
+            application.printStatus(puzzle, turn);
+        }
+
+    }
+
     public int[][] shuffle(int[][] numbers) {
-        int length = numbers.length;
+        int length = 4;
         int bound = 4;
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
@@ -34,11 +47,20 @@ public class Application {
         return shuffle(numbers);
     }
 
-    public static void main(String[] args) {
-        Application application = new Application();
-
-        int[][] puzzle = application.start();
-        int turn = 1;
-
+    public void printStatus(int[][] puzzle, int turn) {
+        int length = 4;
+        System.out.println("Turn " + turn);
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (puzzle[i][j] == 0) {
+                    System.out.print("[  ]");
+                } else if (puzzle[i][j] < 10) {
+                    System.out.print("[ " + puzzle[i][j] + "]");
+                } else {
+                    System.out.print("[" + puzzle[i][j] + "]");
+                }
+                System.out.println();
+            }
+        }
     }
 }
