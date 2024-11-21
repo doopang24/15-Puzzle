@@ -18,7 +18,9 @@ public class Application {
             application.printStatus(puzzle, turn);
             isSolved = application.isOrdered(puzzle);
             if (!isSolved) {
-                int targetNumebr = application.getNumberToMove(puzzle);
+                int targetNumber = application.getNumberToMove(puzzle);
+                puzzle = application.moveTarget(puzzle, targetNumber);
+                turn++;
             }
         }
 
@@ -133,6 +135,23 @@ public class Application {
         }
         return validNumber;
     }
+
+    public int[][] moveTarget(int[][] puzzle, int targetNumber) {
+        int length = 4;
+        for(int i=0; i<length; i++) {
+            for(int j=0; j<length; j++) {
+                if(puzzle[i][j] == 0) {
+                    puzzle[i][j] = targetNumber;
+                }
+                if(puzzle[i][j] == targetNumber) {
+                    puzzle[i][j] = 0;
+                }
+            }
+        }
+        return puzzle;
+    }
+
+    
 }
 
 
