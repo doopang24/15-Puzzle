@@ -16,6 +16,10 @@ public class Application {
 
         while (!isSolved) {
             application.printStatus(puzzle, turn);
+            isSolved = application.isOrdered(puzzle);
+            if (!isSolved) {
+                int targetNumebr = application.getNumberToMove(puzzle);
+            }
         }
 
     }
@@ -67,6 +71,7 @@ public class Application {
     public boolean isOrdered(int[][] puzzle) {
         int verticalLength = 3;
         int horizonLength = 4;
+        int bottomLineLength = 3;
         int count = 0;
         int totalGoal = 16;
         for (int i = 0; i < verticalLength; i++) {
@@ -76,14 +81,91 @@ public class Application {
                 }
             }
         }
-        for(int j=0; j<horizonLength-1; j++) {
-            if(puzzle[3][j] == 12 + j + 1) {
+        for (int j = 0; j < horizonLength - 1; j++) {
+            if (puzzle[bottomLineLength][j] == 12 + j + 1) {
                 count++;
             }
         }
-        if(puzzle[verticalLength+1][horizonLength] == 0) {
+        if (puzzle[verticalLength + 1][horizonLength] == 0) {
             count++;
         }
         return count == totalGoal;
     }
+
+    public int getNumberToMove(int[][] puzzle) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.print("숫자 입력> ");
+                int inputNumber = Integer.parseInt(scanner.nextLine());
+                return validateInput(inputNumber, puzzle);
+            } catch (Exception e) {
+                System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
+            }
+        }
+    }
+
+    public int validateInput(int inputNumber, int[][] puzzle) throws IllegalArgumentException {
+        int validNumber = 0;
+        int length = 4;
+        int minValue = 1, maxValue = 15;
+        int verticalPosOfInput = 0;
+        int horizonPosOfInput = 0;
+        int verticalPosOfBlank = 0;
+        int horizonPosOfBlank = 0;
+        if (inputNumber < minValue || inputNumber > maxValue) {
+            throw new IllegalArgumentException();
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (puzzle[i][j] == inputNumber) {
+                    verticalPosOfInput = i;
+                    horizonPosOfInput = j;
+                }
+                if (puzzle[i][j] == 0) {
+                    verticalPosOfBlank = i;
+                    horizonPosOfBlank = j;
+                }
+            }
+        }
+        if (Math.abs(verticalPosOfInput - verticalPosOfBlank) + Math.abs(horizonPosOfInput - horizonPosOfBlank) > 1) {
+            throw new IllegalArgumentException();
+        }
+        return validNumber;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
