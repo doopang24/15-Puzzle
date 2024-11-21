@@ -65,8 +65,8 @@ public class Application {
                 } else {
                     System.out.print("[" + puzzle[i][j] + "]");
                 }
-                System.out.println();
             }
+            System.out.println();
         }
     }
 
@@ -88,7 +88,7 @@ public class Application {
                 count++;
             }
         }
-        if (puzzle[verticalLength + 1][horizonLength] == 0) {
+        if (puzzle[verticalLength][horizonLength - 1] == 0) {
             count++;
         }
         return count == totalGoal;
@@ -133,17 +133,17 @@ public class Application {
         if (Math.abs(verticalPosOfInput - verticalPosOfBlank) + Math.abs(horizonPosOfInput - horizonPosOfBlank) > 1) {
             throw new IllegalArgumentException();
         }
+        validNumber = inputNumber;
         return validNumber;
     }
 
     public int[][] moveTarget(int[][] puzzle, int targetNumber) {
         int length = 4;
-        for(int i=0; i<length; i++) {
-            for(int j=0; j<length; j++) {
-                if(puzzle[i][j] == 0) {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (puzzle[i][j] == 0) {
                     puzzle[i][j] = targetNumber;
-                }
-                if(puzzle[i][j] == targetNumber) {
+                } else if (puzzle[i][j] == targetNumber) {
                     puzzle[i][j] = 0;
                 }
             }
